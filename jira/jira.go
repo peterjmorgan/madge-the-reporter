@@ -126,7 +126,7 @@ func (j *JiraClient) CreateIssue(issue phylum.IssuesListItem, projectKey string)
 	newIssue := jiraonprem.Issue{
 		Fields: &jiraonprem.IssueFields{
 			Expand:                        "",
-			Type:                          jiraonprem.IssueType{Name: "vulnerability"},
+			Type:                          jiraonprem.IssueType{Name: "Vulnerability"},
 			Project:                       *jiraProject,
 			Environment:                   "",
 			Resolution:                    nil,
@@ -167,10 +167,12 @@ func (j *JiraClient) CreateIssue(issue phylum.IssuesListItem, projectKey string)
 		},
 	}
 
-	issueId, _, err := j.Client.Issue.Create(context.Background(), &newIssue)
+	issueId, resp, err := j.Client.Issue.Create(context.Background(), &newIssue)
 	if err != nil {
 		log.Errorf("failed to create jira issue: %v\n", err)
 		return "", err
 	}
+
+	_ = resp
 	return issueId.ID, nil
 }
