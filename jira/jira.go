@@ -8,7 +8,10 @@ import (
 	"github.com/peterjmorgan/go-phylum"
 	log "github.com/sirupsen/logrus"
 	"github.com/trivago/tgo/tcontainer"
+	stripmd "github.com/writeas/go-strip-markdown"
+	"io"
 	"net/http"
+	"regexp"
 )
 
 type JiraClientOpts struct {
@@ -111,6 +114,16 @@ func (j *JiraClient) GetJiraIssuesByProject(projectKey string) ([]jiraonprem.Iss
 	return issues, nil
 }
 
+//func ConvertMarkdown(description string) (string, error) {
+//	var result string = ""
+//	pdoc, err := pandoc.New(nil)
+//	if err != nil {
+//		log.Errorf("failed to create pandoc client: %v\n", err)
+//	}
+//	pdoc.
+//	return result, nil
+//}
+
 func (j *JiraClient) CreateIssue(issue phylum.IssuesListItem, projectKey string) (string, error) {
 
 	jiraProject, _, err := j.Client.Project.Get(context.Background(), projectKey)
@@ -119,57 +132,49 @@ func (j *JiraClient) CreateIssue(issue phylum.IssuesListItem, projectKey string)
 		return "", err
 	}
 
-	//unknown := tcontainer.NewMarshalMap()
-	severity := tcontainer.NewMarshalMap()
-	severity.Set("customfield_10112", "high")
+	// Convert Phylum Issue Description from Markdown to Jira Textile
+
+	// Set custom fields
+	unknown := tcontainer.NewMarshalMap()
+	sev := make(map[string]interface{}, 0)
+	sev["value"] = "critical"
+	sev["id"] = "10003"
+	unknown.Set("customfield_10112", sev)
+
+	// Set CWE
+	if issue.RiskType == "vulnerability" {
+		cwePat := regexp.MustCompile(`..(CWE-\d\d\d)`)
+		if doesMatch := cwePat.MatchString(*issue.Tag); doesMatch {
+			matches := cwePat.FindStringSubmatch(*issue.Tag)
+			cwe := matches[1]
+			unknown.Set("customfield_10113", cwe)
+		}
+	}
 
 	newIssue := jiraonprem.Issue{
 		Fields: &jiraonprem.IssueFields{
-			Expand:                        "",
-			Type:                          jiraonprem.IssueType{Name: "Vulnerability"},
-			Project:                       *jiraProject,
-			Environment:                   "",
-			Resolution:                    nil,
-			Priority:                      nil,
-			Resolutiondate:                jiraonprem.Time{},
-			Created:                       jiraonprem.Time{},
-			Duedate:                       jiraonprem.Date{},
-			Watches:                       nil,
-			Assignee:                      nil,
-			Updated:                       jiraonprem.Time{},
-			Description:                   issue.Description,
-			Summary:                       issue.Title,
-			Creator:                       nil,
-			Reporter:                      nil,
-			Components:                    nil,
-			Status:                        nil,
-			Progress:                      nil,
-			AggregateProgress:             nil,
-			TimeTracking:                  nil,
-			TimeSpent:                     0,
-			TimeEstimate:                  0,
-			TimeOriginalEstimate:          0,
-			Worklog:                       nil,
-			IssueLinks:                    nil,
-			Comments:                      nil,
-			FixVersions:                   nil,
-			AffectsVersions:               nil,
-			Labels:                        nil,
-			Subtasks:                      nil,
-			Attachments:                   nil,
-			Epic:                          nil,
-			Sprint:                        nil,
-			Parent:                        nil,
-			AggregateTimeOriginalEstimate: 0,
-			AggregateTimeSpent:            0,
-			AggregateTimeEstimate:         0,
-			Unknowns:                      nil,
+			Expand:         "",
+			Type:           jiraonprem.IssueType{Name: "Vulnerability"},
+			Project:        *jiraProject,
+			Resolutiondate: jiraonprem.Time{},
+			Created:        jiraonprem.Time{},
+			Duedate:        jiraonprem.Date{},
+			Watches:        nil,
+			Assignee:       nil,
+			Updated:        jiraonprem.Time{},
+			Description:    stripmd.Strip(issue.Description),
+			Summary:        issue.Title,
+			Creator:        nil,
+			Reporter:       nil,
+			Unknowns:       unknown,
 		},
 	}
 
 	issueId, resp, err := j.Client.Issue.Create(context.Background(), &newIssue)
 	if err != nil {
 		log.Errorf("failed to create jira issue: %v\n", err)
+		tempbody, _ := io.ReadAll(resp.Body)
+		_ = tempbody
 		return "", err
 	}
 

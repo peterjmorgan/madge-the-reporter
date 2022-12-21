@@ -1,7 +1,5 @@
 package cmd
 
-//TODO: completely rewrite this
-
 import (
 	"fmt"
 	phylum "github.com/peterjmorgan/go-phylum"
@@ -35,6 +33,7 @@ var jiraCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		phylumProjectID, _ := cmd.Flags().GetString("PhylumProjectID")
 		jiraProjectKey, _ := cmd.Flags().GetString("JiraProjectKey")
+		dryRun, _ := cmd.Flags().GetBool("dry-run")
 
 		_ = phylumProjectID
 
@@ -89,10 +88,20 @@ var jiraCmd = &cobra.Command{
 			}
 		}
 
-		////TODO: debug, remove
-		fmt.Printf("Issues to be added: \n")
-		for _, elem := range ToBeAdded {
-			fmt.Printf("%v\n", elem.Title)
+		if dryRun {
+			fmt.Printf("Issues to be added: \n")
+			for _, elem := range ToBeAdded {
+				fmt.Printf("%v\n", elem.Title)
+			}
+		} else {
+			for _, elem := range ToBeAdded {
+				issueKey, err := j.CreateIssue(elem, jiraProjectKey)
+				if err != nil {
+					log.Errorf("failed to create issue: %v\n", elem.Title)
+				} else {
+					fmt.Printf("Created %s for %v\n", issueKey, elem.Title)
+				}
+			}
 		}
 	},
 }
