@@ -9,6 +9,7 @@ require (
 	github.com/sirupsen/logrus v1.9.0
 	github.com/spf13/cobra v1.6.1
 	github.com/trivago/tgo v1.0.7
+	github.com/writeas/go-strip-markdown v2.0.1+incompatible
 	gopkg.in/yaml.v3 v3.0.1
 )
 
@@ -17,20 +18,15 @@ require (
 	github.com/coreos/go-oidc v2.2.1+incompatible // indirect
 	github.com/deepmap/oapi-codegen v1.12.4 // indirect
 	github.com/fatih/structs v1.1.0 // indirect
-	github.com/go-akka/configuration v0.0.0-20200606091224-a002c0330665 // indirect
 	github.com/go-resty/resty/v2 v2.7.0 // indirect
-	github.com/gogap/config v0.0.0-20190801085516-e664631840ac // indirect
-	github.com/gogap/go-pandoc v0.0.0-20200716062510-7550ed141704 // indirect
 	github.com/golang-jwt/jwt/v4 v4.4.3 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/google/go-querystring v1.1.0 // indirect
 	github.com/google/uuid v1.3.0 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
-	github.com/pborman/uuid v1.2.1 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/pquerna/cachecontrol v0.1.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
-	github.com/writeas/go-strip-markdown v2.0.1+incompatible // indirect
 	golang.org/x/crypto v0.4.0 // indirect
 	golang.org/x/net v0.4.0 // indirect
 	golang.org/x/oauth2 v0.3.0 // indirect
