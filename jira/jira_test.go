@@ -1,17 +1,18 @@
 package jira
 
 import (
-	jiraonprem "github.com/andygrunwald/go-jira/v2/onpremise"
-	"github.com/peterjmorgan/go-phylum"
 	"reflect"
 	"testing"
+
+	jiraonprem "github.com/andygrunwald/go-jira/v2/onpremise"
+	"github.com/peterjmorgan/go-phylum"
 )
 
 var myOpts JiraClientOpts = JiraClientOpts{
 	OnPrem:   true,
 	AuthType: "PAT",
-	//Domain:      "http://vader.lan:8080",
-	Domain:      "http://vader.tail23af1.ts.net:8080",
+	Domain:      "http://vader.lan:8080",
+	// Domain:      "http://vader.tail23af1.ts.net:8080",
 	Username:    "pmorgan",
 	Token:       "NzIwNjIxNzUzMjk5Okn6vIADIjFNaaRxK6NI4o/tU7UP",
 	ProjectName: "Vulnerabilities",

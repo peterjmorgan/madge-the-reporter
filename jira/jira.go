@@ -3,15 +3,18 @@ package jira
 import (
 	"context"
 	"fmt"
-	jiracloud "github.com/andygrunwald/go-jira/v2/cloud"
-	jiraonprem "github.com/andygrunwald/go-jira/v2/onpremise"
-	"github.com/peterjmorgan/go-phylum"
-	log "github.com/sirupsen/logrus"
-	"github.com/trivago/tgo/tcontainer"
-	stripmd "github.com/writeas/go-strip-markdown"
 	"io"
 	"net/http"
 	"regexp"
+	"strings"
+
+	jiracloud "github.com/andygrunwald/go-jira/v2/cloud"
+	jiraonprem "github.com/andygrunwald/go-jira/v2/onpremise"
+	"github.com/peterjmorgan/go-phylum"
+	"github.com/peterjmorgan/madge-the-reporter/structs"
+	log "github.com/sirupsen/logrus"
+	"github.com/trivago/tgo/tcontainer"
+	stripmd "github.com/writeas/go-strip-markdown"
 )
 
 type JiraClientOpts struct {
@@ -23,6 +26,7 @@ type JiraClientOpts struct {
 	ProjectID   string //TODO: check this
 	ProjectName string // needed for queries i think
 	VulnType    string
+	Config      structs.JiraConfig
 }
 
 type JiraFields struct {
@@ -55,7 +59,6 @@ func NewJiraOnPremClient(opts JiraClientOpts) (*JiraClient, error) {
 			Token: opts.Token,
 		}
 		auth = tempauth.Client()
-
 	}
 
 	jiraClient, err := jiraonprem.NewClient(opts.Domain, auth)
@@ -114,14 +117,19 @@ func (j *JiraClient) GetJiraIssuesByProject(projectKey string) ([]jiraonprem.Iss
 	return issues, nil
 }
 
-//func ConvertMarkdown(description string) (string, error) {
-//	var result string = ""
-//	pdoc, err := pandoc.New(nil)
-//	if err != nil {
-//		log.Errorf("failed to create pandoc client: %v\n", err)
+//type FieldMapping struct {
+//	Recommendation struct {
+//		Name string
+//		Id string
 //	}
-//	pdoc.
-//	return result, nil
+//	CWE struct {
+//		Name string
+//		Id string
+//	}
+//	Severity struct {
+//		Name string
+//		Id string
+//	}
 //}
 
 func (j *JiraClient) CreateIssue(issue phylum.IssuesListItem, projectKey string) (string, error) {
@@ -132,14 +140,46 @@ func (j *JiraClient) CreateIssue(issue phylum.IssuesListItem, projectKey string)
 		return "", err
 	}
 
-	// Convert Phylum Issue Description from Markdown to Jira Textile
-
 	// Set custom fields
 	unknown := tcontainer.NewMarshalMap()
-	sev := make(map[string]interface{}, 0)
-	sev["value"] = "critical"
-	sev["id"] = "10003"
-	unknown.Set("customfield_10112", sev)
+	sev := make(map[string]string, 0)
+
+	// Check if custom severity fields are set
+	if j.Opts.Config.CustomFields.Severity.ID != "" && j.Opts.Config.CustomFields.Severity.Name != "" {
+		// interpret Phylum impact level as user-configured severity level
+		switch strings.ToLower(string(issue.Impact)) {
+		case "critical":
+			if j.Opts.Config.SeverityFields.Critical.ID != "" {
+				// Severity custom field ID is set
+				sev["value"] = j.Opts.Config.SeverityFields.Critical.Name
+				sev["id"] = j.Opts.Config.SeverityFields.Critical.ID
+			}
+		case "high":
+			if j.Opts.Config.SeverityFields.High.ID != "" {
+				// Severity custom field ID is set
+				sev["value"] = j.Opts.Config.SeverityFields.High.Name
+				sev["id"] = j.Opts.Config.SeverityFields.High.ID
+			}
+		case "medium":
+			if j.Opts.Config.SeverityFields.Medium.ID != "" {
+				// Severity custom field ID is set
+				sev["value"] = j.Opts.Config.SeverityFields.Medium.Name
+				sev["id"] = j.Opts.Config.SeverityFields.Medium.ID
+			}
+		case "low":
+			if j.Opts.Config.SeverityFields.Low.ID != "" {
+				// Severity custom field ID is set
+				sev["value"] = j.Opts.Config.SeverityFields.Low.Name
+				sev["id"] = j.Opts.Config.SeverityFields.Low.ID
+			}
+		}
+	}
+
+	// set the severity field
+	// unknown.Set("customfield_10112", sev)
+	// set the severity field using the customfield definition, then set the val of the k->v mapping to the sev map
+	//unknown.Set(textFieldsMapping["severity"]["id"], sev)
+	unknown.Set(j.Opts.Config.CustomFields.Severity.ID, sev)
 
 	// Set CWE
 	if issue.RiskType == "vulnerability" {
@@ -147,10 +187,26 @@ func (j *JiraClient) CreateIssue(issue phylum.IssuesListItem, projectKey string)
 		if doesMatch := cwePat.MatchString(*issue.Tag); doesMatch {
 			matches := cwePat.FindStringSubmatch(*issue.Tag)
 			cwe := matches[1]
-			unknown.Set("customfield_10113", cwe)
+			if len(cwe) > 0 && j.Opts.Config.CustomFields.CWE.ID != "" {
+				//unknown.Set("customfield_10113", cwe)
+				//unknown.Set(textFieldsMapping["cwe"]["id"], cwe)
+				unknown.Set(j.Opts.Config.CustomFields.CWE.ID, cwe)
+			} else {
+				log.Errorf("CWE field len = 0 - Phylum Vuln Issue: %v\n", issue.Title)
+			}
 		}
 	}
 
+	// Set recomendation
+	if j.Opts.Config.CustomFields.Recommendation.ID != "" {
+		recommendation, err := phylum.ExtractRemediation(issue)
+		if err != nil {
+			log.Errorf("failed to extract remediation from %v: %v\n", issue.Title, err)
+		}
+		unknown.Set(j.Opts.Config.CustomFields.Recommendation.ID, recommendation)
+	}
+
+	// Create issue with fields set
 	newIssue := jiraonprem.Issue{
 		Fields: &jiraonprem.IssueFields{
 			Expand:         "",

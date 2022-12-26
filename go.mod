@@ -5,7 +5,7 @@ go 1.19
 require (
 	github.com/andygrunwald/go-jira/v2 v2.0.0-20221123211055-094697715517
 	github.com/manifoldco/promptui v0.9.0
-	github.com/peterjmorgan/go-phylum v0.1.9
+	github.com/peterjmorgan/go-phylum v0.1.98
 	github.com/sirupsen/logrus v1.9.0
 	github.com/spf13/cobra v1.6.1
 	github.com/trivago/tgo v1.0.7
@@ -30,6 +30,7 @@ require (
 	golang.org/x/crypto v0.4.0 // indirect
 	golang.org/x/net v0.4.0 // indirect
 	golang.org/x/oauth2 v0.3.0 // indirect
+	golang.org/x/sync v0.1.0 // indirect
 	golang.org/x/sys v0.3.0 // indirect
 	google.golang.org/appengine v1.6.7 // indirect
 	google.golang.org/protobuf v1.28.1 // indirect

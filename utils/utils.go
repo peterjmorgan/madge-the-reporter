@@ -4,19 +4,21 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
-	"github.com/manifoldco/promptui"
-	"github.com/peterjmorgan/madge-the-reporter/structs"
-	log "github.com/sirupsen/logrus"
-	"gopkg.in/yaml.v3"
 	"os"
 	"os/exec"
 	"reflect"
 	"strings"
+
+	"github.com/manifoldco/promptui"
+	"github.com/peterjmorgan/madge-the-reporter/structs"
+	log "github.com/sirupsen/logrus"
+	"gopkg.in/yaml.v3"
 )
 
-func ReadConfigFile(testConfigData *structs.ConfigFile) (*structs.ConfigThing, error) {
+func ReadConfigFile(testConfigData *structs.ConfigFile) (*structs.RootConfig, error) {
 	var filename string = "madge_config.yaml"
 
+	// For testing
 	v := reflect.ValueOf(testConfigData)
 	if v.Kind() == reflect.Ptr && !v.IsNil() {
 		if testConfigData.Filename != "" {
@@ -32,7 +34,7 @@ func ReadConfigFile(testConfigData *structs.ConfigFile) (*structs.ConfigThing, e
 			return nil, fmt.Errorf("failed to read file")
 		}
 
-		configData := new(structs.ConfigThing)
+		configData := new(structs.RootConfig)
 		err2 := yaml.Unmarshal(fileData, configData)
 		if err2 != nil {
 			fmt.Printf("Failed to unmarshall config data: %v\n", err2)
