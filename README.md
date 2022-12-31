@@ -2,14 +2,20 @@
 
 Madge is a reporter of issues, Phylum supply chain security issues specifically. Madge translates Phylum issues into tickets for various ticketing systems. Currently, Madge supports:
 - Jira
+
 (other ticketing systems coming soon)
+
+# TODO
+- [ ] Create video building a configuration
+- [ ] Document using `enumerate_fields.py`
+
 
 It is a binary with subcommands:
 - `configure` - interactively create a configuration file `madge_config.yaml`
 - `jira` - parse `madge_config.yaml` to create Jira Issues from Phylum Issues
 
 ## Workflow
-Alice astutely understands using Phylum instead of an SCA tool enables her to defend her organization's software product from the totality of software supply chain risk.
+Alice astutely understands using Phylum instead of an SCA tool enables her to defend her organization's software product from the totality of software supply chain risk. Alice wants to report the Phylum Issues for her project to Bob, her developer co-worker so he can work on fixing the issues. The only issue is, Bob is used to using Jira as all the software development processes live in Jira. Madge can help here!
 
 1. Alice `analyzes` her software project with Phylum.
 1. Alice triages the resulting Phylum Issues, resulting in some *suppressed issues*
