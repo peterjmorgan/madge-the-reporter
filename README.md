@@ -28,12 +28,18 @@ Interactively configure madge:
 ## Configuration
 `madge` uses a YAML configuration file named `madge_config.yaml`. This file can be edited directly, but it is suggested the first configuration be created using the `./madge configure` subcommand.
 
-Phylum -> Jira maps the following fields:
+### Phylum -> Jira
+By default, madge creates Jira issues using the 'Bug' Issue Type in Jira. This can be defined in the madge configuration.
 
-| Phylum Field | Jira Field | 
-|-----|-----|
-| Issue Title | Summary |
-| Issue Description | Description | 
+| Phylum Field | Jira Field | Configurable? |
+|-----|-----| ----- | 
+| Issue Title | Summary | No |
+| Issue Description | Description | No |
+| Issue Impact (severity) | Undefined | Yes |
+| Vulnerability CWE | Undefined | Yes |
+| Recommendation/Remediation | Undefined | Yes |
+
+
 
 
 
