@@ -29,14 +29,6 @@ type JiraClientOpts struct {
 	Config      structs.JiraConfig
 }
 
-//type JiraFields struct {
-//	SeverityField    string
-//	CweField         string
-//	DescriptionField string
-//	ReporterField    string
-//	SummaryField     string
-//}
-
 // TODO
 // Make a wrapper around NewClient to call NewJiraOnPremClient or NewJiraCloudClient
 //func NewJiraClient(opts JiraClientOpts)
@@ -67,12 +59,11 @@ func NewJiraOnPremClient(opts JiraClientOpts) (*JiraClient, error) {
 		return nil, err
 	}
 
-	user, _, err := jiraClient.User.GetSelf(context.Background())
+	_, _, err = jiraClient.User.GetSelf(context.Background())
 	if err != nil {
 		log.Errorf("failed to get current user: %v\n", err)
 		return nil, err
 	}
-	_ = user //TODO: debug, remove
 
 	return &JiraClient{
 		Client: jiraClient,
@@ -94,17 +85,15 @@ func NewJiraCloudClient(opts JiraClientOpts) (*jiracloud.Client, error) {
 		return nil, err
 	}
 
-	user, _, err := jiraClient.User.GetCurrentUser(context.Background())
+	_, _, err = jiraClient.User.GetCurrentUser(context.Background())
 	if err != nil {
 		log.Errorf("failed to get current user: %v\n", err)
 		return nil, err
 	}
-	_ = user //TODO: debug, remove
 
 	return jiraClient, nil
 }
 
-// TODO: think about this, most likely will need to pass the project into the query as clients will have multiple projects in Jira
 func (j *JiraClient) GetJiraIssuesByProject(projectKey string) ([]jiraonprem.Issue, error) {
 	jql := fmt.Sprintf("project = %s and type = %s", projectKey, j.Opts.VulnType)
 
@@ -116,21 +105,6 @@ func (j *JiraClient) GetJiraIssuesByProject(projectKey string) ([]jiraonprem.Iss
 
 	return issues, nil
 }
-
-//type FieldMapping struct {
-//	Recommendation struct {
-//		Name string
-//		Id string
-//	}
-//	CWE struct {
-//		Name string
-//		Id string
-//	}
-//	Severity struct {
-//		Name string
-//		Id string
-//	}
-//}
 
 func (j *JiraClient) CreateIssue(issue phylum.IssuesListItem, projectKey string) (string, error) {
 
@@ -150,25 +124,21 @@ func (j *JiraClient) CreateIssue(issue phylum.IssuesListItem, projectKey string)
 		switch strings.ToLower(string(issue.Impact)) {
 		case "critical":
 			if j.Opts.Config.SeverityFields.Critical.ID != "" {
-				// Severity custom field ID is set
 				sev["value"] = j.Opts.Config.SeverityFields.Critical.Name
 				sev["id"] = j.Opts.Config.SeverityFields.Critical.ID
 			}
 		case "high":
 			if j.Opts.Config.SeverityFields.High.ID != "" {
-				// Severity custom field ID is set
 				sev["value"] = j.Opts.Config.SeverityFields.High.Name
 				sev["id"] = j.Opts.Config.SeverityFields.High.ID
 			}
 		case "medium":
 			if j.Opts.Config.SeverityFields.Medium.ID != "" {
-				// Severity custom field ID is set
 				sev["value"] = j.Opts.Config.SeverityFields.Medium.Name
 				sev["id"] = j.Opts.Config.SeverityFields.Medium.ID
 			}
 		case "low":
 			if j.Opts.Config.SeverityFields.Low.ID != "" {
-				// Severity custom field ID is set
 				sev["value"] = j.Opts.Config.SeverityFields.Low.Name
 				sev["id"] = j.Opts.Config.SeverityFields.Low.ID
 			}
