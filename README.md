@@ -5,11 +5,6 @@ Madge is a reporter of issues, Phylum supply chain security issues specifically.
 
 (other ticketing systems coming soon)
 
-# TODO
-- [ ] Create video building a configuration
-- [ ] Document using `enumerate_fields.py`
-
-
 It is a binary with subcommands:
 - `configure` - interactively create a configuration file `madge_config.yaml`
 - `jira` - parse `madge_config.yaml` to create Jira Issues from Phylum Issues
