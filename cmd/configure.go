@@ -73,7 +73,6 @@ var configureCmd = &cobra.Command{
 
 		switch issueSystemResult {
 		case "Jira":
-			//config["IssueSystem"] = "jira"
 			rootConfig.IssueSystem = "jira"
 
 			// Jira Deployment: Onprem or Cloud
@@ -86,7 +85,6 @@ var configureCmd = &cobra.Command{
 				log.Errorf("isDeploymentPrompt failed: %v\n", err)
 				return
 			}
-			//config["Deployment"] = isDeploymentResult
 			if isDeploymentResult == "On Prem" {
 				rootConfig.JiraConfigObj.OnPrem = true
 			}
@@ -97,7 +95,6 @@ var configureCmd = &cobra.Command{
 				log.Errorf("isUrl failed: %v\n", err)
 				return
 			}
-			//config["URI"] = isUri
 			rootConfig.JiraConfigObj.URI = isUri
 
 			// Authentication Type:
@@ -111,7 +108,6 @@ var configureCmd = &cobra.Command{
 				log.Errorf("isAuthenticationType failed: %v\n", err)
 				return
 			}
-			//config["AuthenticationType"] = isAuthenticationTypeResult
 			rootConfig.JiraConfigObj.AuthType = isAuthenticationTypeResult
 
 			//// Username:
@@ -128,8 +124,15 @@ var configureCmd = &cobra.Command{
 				log.Errorf("isToken failed: %v\n", err)
 				return
 			}
-			//config["JiraToken"] = isToken
 			rootConfig.JiraConfigObj.Token = isToken
+
+			// Jira Issue Type
+			jiraIssueTypeID, err := utils.PromptForString("Enter ID for Jira Issue Type:", -1)
+			if err != nil {
+				log.Errorf("jiraIssueTypeID failed: %v\n", err)
+				return
+			}
+			rootConfig.JiraConfigObj.IssueTypeID = jiraIssueTypeID
 
 			// custom issue fields
 			customIssueFieldPrompt := promptui.Prompt{
