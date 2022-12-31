@@ -114,6 +114,15 @@ func (j *JiraClient) CreateIssue(issue phylum.IssuesListItem, projectKey string)
 		return "", err
 	}
 
+	// Check if Issue Type is set in configuration, else default to 'Bug'
+	var jiraIssueType string
+	if j.Opts.Config.IssueTypeID == "" {
+		// Default custom field ID for "Bug"
+		jiraIssueType = "10006"
+	} else {
+		jiraIssueType = j.Opts.Config.IssueTypeID
+	}
+
 	// Set custom fields
 	unknown := tcontainer.NewMarshalMap()
 	sev := make(map[string]string, 0)
@@ -143,10 +152,7 @@ func (j *JiraClient) CreateIssue(issue phylum.IssuesListItem, projectKey string)
 				sev["id"] = j.Opts.Config.SeverityFields.Low.ID
 			}
 		}
-		// set the severity field
-		// unknown.Set("customfield_10112", sev)
 		// set the severity field using the customfield definition, then set the val of the k->v mapping to the sev map
-		//unknown.Set(textFieldsMapping["severity"]["id"], sev)
 		unknown.Set(j.Opts.Config.CustomFields.Severity.ID, sev)
 	}
 
@@ -157,8 +163,6 @@ func (j *JiraClient) CreateIssue(issue phylum.IssuesListItem, projectKey string)
 			matches := cwePat.FindStringSubmatch(*issue.Tag)
 			cwe := matches[1]
 			if len(cwe) > 0 && j.Opts.Config.CustomFields.CWE.ID != "" {
-				//unknown.Set("customfield_10113", cwe)
-				//unknown.Set(textFieldsMapping["cwe"]["id"], cwe)
 				unknown.Set(j.Opts.Config.CustomFields.CWE.ID, cwe)
 			} else {
 				log.Errorf("CWE field len = 0 - Phylum Vuln Issue: %v\n", issue.Title)
@@ -178,20 +182,12 @@ func (j *JiraClient) CreateIssue(issue phylum.IssuesListItem, projectKey string)
 	// Create issue with fields set
 	newIssue := jiraonprem.Issue{
 		Fields: &jiraonprem.IssueFields{
-			Expand:         "",
-			Type:           jiraonprem.IssueType{ID: j.Opts.Config.IssueTypeID},
-			Project:        *jiraProject,
-			Resolutiondate: jiraonprem.Time{},
-			Created:        jiraonprem.Time{},
-			Duedate:        jiraonprem.Date{},
-			Watches:        nil,
-			Assignee:       nil,
-			Updated:        jiraonprem.Time{},
-			Description:    stripmd.Strip(issue.Description),
-			Summary:        issue.Title,
-			Creator:        nil,
-			Reporter:       nil,
-			Unknowns:       unknown,
+			Expand:      "",
+			Type:        jiraonprem.IssueType{ID: jiraIssueType},
+			Project:     *jiraProject,
+			Description: stripmd.Strip(issue.Description),
+			Summary:     issue.Title,
+			Unknowns:    unknown,
 		},
 	}
 
