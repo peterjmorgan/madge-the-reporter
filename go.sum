@@ -44,6 +44,8 @@ github.com/peterjmorgan/go-phylum v0.1.97 h1:9ObVR8g+LNV6wYRgVi5VGyKXYTHSawPuWyO
 github.com/peterjmorgan/go-phylum v0.1.97/go.mod h1:GFl3DqHEISR9U1yuvxihoPFbzCj9dK4Slt09Wh1lbFQ=
 github.com/peterjmorgan/go-phylum v0.1.98 h1:IjqIA+DkKnSEHCXSsY7n/0psD2mFTJ7sdXjZvuRz97w=
 github.com/peterjmorgan/go-phylum v0.1.98/go.mod h1:GFl3DqHEISR9U1yuvxihoPFbzCj9dK4Slt09Wh1lbFQ=
+github.com/peterjmorgan/go-phylum v0.1.99 h1:KsG3FsRPHMAcgKyjFOr02/mz1pY5htzmvoySgXdH/m4=
+github.com/peterjmorgan/go-phylum v0.1.99/go.mod h1:GFl3DqHEISR9U1yuvxihoPFbzCj9dK4Slt09Wh1lbFQ=
 github.com/pkg/errors v0.9.1 h1:FEBLx1zS214owpjy7qsBeixbURkuhQAwrK5UwLGTwt4=
 github.com/pkg/errors v0.9.1/go.mod h1:bwawxfHBFNV+L2hUp1rHADufV3IMtnDRdf1r5NINEl0=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=

@@ -29,13 +29,13 @@ type JiraClientOpts struct {
 	Config      structs.JiraConfig
 }
 
-type JiraFields struct {
-	SeverityField    string
-	CweField         string
-	DescriptionField string
-	ReporterField    string
-	SummaryField     string
-}
+//type JiraFields struct {
+//	SeverityField    string
+//	CweField         string
+//	DescriptionField string
+//	ReporterField    string
+//	SummaryField     string
+//}
 
 // TODO
 // Make a wrapper around NewClient to call NewJiraOnPremClient or NewJiraCloudClient
@@ -173,13 +173,12 @@ func (j *JiraClient) CreateIssue(issue phylum.IssuesListItem, projectKey string)
 				sev["id"] = j.Opts.Config.SeverityFields.Low.ID
 			}
 		}
+		// set the severity field
+		// unknown.Set("customfield_10112", sev)
+		// set the severity field using the customfield definition, then set the val of the k->v mapping to the sev map
+		//unknown.Set(textFieldsMapping["severity"]["id"], sev)
+		unknown.Set(j.Opts.Config.CustomFields.Severity.ID, sev)
 	}
-
-	// set the severity field
-	// unknown.Set("customfield_10112", sev)
-	// set the severity field using the customfield definition, then set the val of the k->v mapping to the sev map
-	//unknown.Set(textFieldsMapping["severity"]["id"], sev)
-	unknown.Set(j.Opts.Config.CustomFields.Severity.ID, sev)
 
 	// Set CWE
 	if issue.RiskType == "vulnerability" {
@@ -210,7 +209,7 @@ func (j *JiraClient) CreateIssue(issue phylum.IssuesListItem, projectKey string)
 	newIssue := jiraonprem.Issue{
 		Fields: &jiraonprem.IssueFields{
 			Expand:         "",
-			Type:           jiraonprem.IssueType{Name: "Vulnerability"},
+			Type:           jiraonprem.IssueType{ID: j.Opts.Config.IssueTypeID},
 			Project:        *jiraProject,
 			Resolutiondate: jiraonprem.Time{},
 			Created:        jiraonprem.Time{},
