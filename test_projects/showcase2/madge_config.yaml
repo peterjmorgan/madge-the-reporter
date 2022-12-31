@@ -1,0 +1,38 @@
+issueconfig:
+    jiraconfigobj:
+        onprem: true
+        authtype: PAT
+        uri: http://vader.lan:8080
+        ***REMOVED***
+        issuetypeid: "10006"
+        customfields:
+            cwe:
+                name: ""
+                id: ""
+            severity:
+                name: ""
+                id: ""
+            recommendation:
+                name: ""
+                id: ""
+        severityfields:
+            critical:
+                name: ""
+                id: ""
+            high:
+                name: ""
+                id: ""
+            medium:
+                name: ""
+                id: ""
+            low:
+                name: ""
+                id: ""
+    defectdojoconfigobj:
+        onprem: false
+        domain: ""
+        username: ""
+        passwword: ""
+issuesystem: jira
+***REMOVED***
+phylumhost: ""

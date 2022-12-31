@@ -1,0 +1,36 @@
+issueconfig:
+    jiraconfigobj:
+        onprem: true
+        authtype: PAT
+        uri: http://vader.lan:8080
+        ***REMOVED***
+        customfields:
+            cwe:
+                name: CWE
+                id: customfield_10113
+            severity:
+                name: Severity
+                id: customfield_10112
+            recommendation:
+                name: Mitigation
+                id: customfield_10115
+        severityfields:
+            critical:
+                name: Critical
+                id: "10003"
+            high:
+                name: High
+                id: "10004"
+            medium:
+                name: Medium
+                id: "10005"
+            low:
+                name: Low
+                id: "10006"
+    defectdojoconfigobj:
+        onprem: false
+        domain: ""
+        username: ""
+        passwword: ""
+issuesystem: jira
+***REMOVED***
