@@ -40,7 +40,12 @@ var jiraCmd = &cobra.Command{
 			log.Errorf("failed to read config file: %v\n", err)
 			return
 		}
-		log.Debugf("Read config: %v\n", jiraConfig)
+		if err = jira.JiraValidateConfig(jiraConfig); err != nil {
+			log.Errorf("Failed to validate config: %s\n", err)
+			log.Errorf("Exiting...")
+			return
+		}
+		log.Debugf("Read and validated config: %v\n", jiraConfig)
 
 		//TODO: configure should write this structure
 		jiraOpts := jira.JiraClientOpts{

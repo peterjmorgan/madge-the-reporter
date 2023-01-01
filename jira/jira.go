@@ -214,3 +214,19 @@ func (j *JiraClient) CreateIssue(issue phylum.IssuesListItem, projectKey string)
 	_ = resp
 	return issueId.ID, nil
 }
+
+func JiraValidateConfig(config *structs.RootConfig) error {
+	if config.PhylumToken == "" {
+		return fmt.Errorf("JiraValidateConfig failed: missing phylum token")
+	}
+	if config.JiraConfigObj.URI == "" {
+		return fmt.Errorf("JiraValidateConfig failed: missing Jira URL")
+	}
+	if config.JiraConfigObj.Token == "" {
+		return fmt.Errorf("JiraValidateConfig failed: missing Jira token")
+	}
+	if config.JiraConfigObj.IssueTypeID == "" {
+		return fmt.Errorf("JiraValidateConfig failed: missing Jira Issue Type ID")
+	}
+	return nil
+}
