@@ -3,7 +3,6 @@ issueconfig:
         onprem: true
         authtype: PAT
         uri: http://vader.lan:8080
-        ***REMOVED***
         issuetypeid: "10006"
         customfields:
             cwe:
@@ -34,5 +33,4 @@ issueconfig:
         username: ""
         passwword: ""
 issuesystem: jira
-***REMOVED***
 phylumhost: ""
