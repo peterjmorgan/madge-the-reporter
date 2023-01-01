@@ -31,6 +31,12 @@ Synchronize Phylum Issues in PHYLUM_PROJECT_ID with a Jira project identified by
 
 `./madge jira -j JIRA_PROJECT_KEY -p PHYLUM_PROJECT_ID`
 
+Additional flags:
+- `-c` specify path to configuration file
+- `-d` enable debug logging
+- `-D` enable dry-run mode (do not submit issues to ticketing system)
+
+
 ## Configuration
 `madge` uses a YAML config file named `madge_config.yaml`. This file can be edited directly, but it is suggested the first configuration be created using the `./madge configure` subcommand.
 
@@ -39,13 +45,17 @@ Synchronize Phylum Issues in PHYLUM_PROJECT_ID with a Jira project identified by
 ### Phylum -> Jira
 By default, madge creates Jira issues using the 'Bug' Issue Type in Jira. This can be defined in the madge configuration.
 
-| Phylum Field | Jira Field | Configurable? |
-|-----|-----| ----- | 
-| Issue Title | Summary | No |
-| Issue Description | Description | No |
-| Issue Impact (severity) | Undefined | Yes |
-| Vulnerability CWE | Undefined | Yes |
-| Recommendation/Remediation | Undefined | Yes |
+| Phylum Field | Jira Field | Configurable? | Intended Type |
+|-----|-----| ----- | ----- |
+| Issue Title | Summary | No | N/A |
+| Issue Description | Description | No | N/A |
+| Issue Impact (severity) | Undefined | Yes | Select |
+| Vulnerability CWE | Undefined | Yes | Short Text |
+| Recommendation/Remediation | Undefined | Yes | Text |
+
+**Undefined** Jira fields are intended to be custom fields in Jira configured with the Intended Type. 
+
+The `configure` subcommand asks the user to specify the information required for madge to submit the correct information to the custom fields.
 
 ## Workflow
 1. User checks out a software project locally (git et al.)
