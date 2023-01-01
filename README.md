@@ -57,7 +57,7 @@ By default, madge creates Jira issues using the 'Bug' Issue Type in Jira. This c
 1. User commits `madge_config.yaml` to the VCS system (git et al.) so other users can repeat the process when necessary
 1. Developers use the ticketing system to fix issues
 1. Phylum analyze is ran again on the updated software project iteratively to confirm issues are fixed
-1. Madge is run again to repopulate the ticketing system with remaining and/or new Phylum Issues
+1. Madge is ran again to repopulate the ticketing system with remaining and/or new Phylum Issues
 
 
 
