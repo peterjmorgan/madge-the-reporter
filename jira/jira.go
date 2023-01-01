@@ -217,13 +217,13 @@ func (j *JiraClient) CreateIssue(issue phylum.IssuesListItem, projectKey string)
 
 func JiraValidateConfig(config *structs.RootConfig) error {
 	if config.PhylumToken == "" {
-		return fmt.Errorf("JiraValidateConfig failed: missing phylum token")
+		return fmt.Errorf("JiraValidateConfig failed: missing phylum token from environment")
 	}
 	if config.JiraConfigObj.URI == "" {
 		return fmt.Errorf("JiraValidateConfig failed: missing Jira URL")
 	}
 	if config.JiraConfigObj.Token == "" {
-		return fmt.Errorf("JiraValidateConfig failed: missing Jira token")
+		return fmt.Errorf("JiraValidateConfig failed: missing Jira token from environment")
 	}
 	if config.JiraConfigObj.IssueTypeID == "" {
 		return fmt.Errorf("JiraValidateConfig failed: missing Jira Issue Type ID")

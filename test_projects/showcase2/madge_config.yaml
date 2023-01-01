@@ -3,7 +3,6 @@ issueconfig:
         onprem: true
         authtype: PAT
         uri: http://vader.lan:8080
-        token: NzIwNjIxNzUzMjk5Okn6vIADIjFNaaRxK6NI4o/tU7UP
         issuetypeid: "10006"
         customfields:
             cwe:
@@ -34,5 +33,4 @@ issueconfig:
         username: ""
         passwword: ""
 issuesystem: jira
-phylumtoken: eyJhbGciOiJIUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICIwZGVjZmE4OC0wMjNmLTQ3N2ItOGJiMy0yZmY5ODczMzdlYzMifQ.eyJleHAiOjE5ODEzODA3NzIsImlhdCI6MTY3MTEyMjExNywianRpIjoiMWQ2MGFmMjItMDYxNi00ZjM3LWIxNzgtZGViMmYwM2UxNDk2IiwiaXNzIjoiaHR0cHM6Ly9sb2dpbi5waHlsdW0uaW8vcmVhbG1zL3BoeWx1bSIsImF1ZCI6Imh0dHBzOi8vbG9naW4ucGh5bHVtLmlvL3JlYWxtcy9waHlsdW0iLCJzdWIiOiIwMGIyOGE1MC0xY2IxLTRiYmUtYmQyNC1mMGM2M2U3OWNjN2QiLCJ0eXAiOiJPZmZsaW5lIiwiYXpwIjoicGh5bHVtX2NsaSIsInNlc3Npb25fc3RhdGUiOiI1MjQxN2U0Ny0xMjJiLTQ3OWQtOGZiZS01MTZlZTQzYzdlNmQiLCJzY29wZSI6Im9wZW5pZCBlbWFpbCBvZmZsaW5lX2FjY2VzcyBwcm9maWxlIiwic2lkIjoiNTI0MTdlNDctMTIyYi00NzlkLThmYmUtNTE2ZWU0M2M3ZTZkIn0.Kup-y9cpgI1jGUQ6EDnmoZoAG9NA2VOzKKiH5N4GMvg
 phylumhost: ""

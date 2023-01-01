@@ -124,7 +124,8 @@ var configureCmd = &cobra.Command{
 				log.Errorf("isToken failed: %v\n", err)
 				return
 			}
-			rootConfig.JiraConfigObj.Token = isToken
+			//rootConfig.JiraConfigObj.Token = isToken
+			os.Setenv("JIRA_TOKEN", isToken)
 
 			// Jira Issue Type
 			jiraIssueTypeID, err := utils.PromptForString("Enter ID for Jira Issue Type:", -1)
@@ -339,8 +340,8 @@ var configureCmd = &cobra.Command{
 			}
 			fmt.Printf("Found phylum token from locally-installed 'phylum':\n%v\n", phylumToken)
 		}
-		//config["PHYLUM_API_KEY"] = phylumToken
-		rootConfig.PhylumToken = phylumToken
+		//rootConfig.PhylumToken = phylumToken
+		os.Setenv("PHYLUM_TOKEN", phylumToken)
 
 		// Configure Phylum API URL
 		phylumConfigureUrlPrompt := promptui.Prompt{

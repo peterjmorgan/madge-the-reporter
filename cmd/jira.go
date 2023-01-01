@@ -7,6 +7,7 @@ import (
 	"github.com/peterjmorgan/madge-the-reporter/utils"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
+	"os"
 )
 
 func init() {
@@ -40,6 +41,10 @@ var jiraCmd = &cobra.Command{
 			log.Errorf("failed to read config file: %v\n", err)
 			return
 		}
+
+		jiraConfig.JiraConfigObj.Token = os.Getenv("JIRA_TOKEN")
+		jiraConfig.PhylumToken = os.Getenv("PHYLUM_TOKEN")
+
 		if err = jira.JiraValidateConfig(jiraConfig); err != nil {
 			log.Errorf("Failed to validate config: %s\n", err)
 			log.Errorf("Exiting...")
