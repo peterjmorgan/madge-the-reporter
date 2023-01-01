@@ -94,8 +94,20 @@ func NewJiraCloudClient(opts JiraClientOpts) (*jiracloud.Client, error) {
 	return jiraClient, nil
 }
 
+//func (j *JiraClient) GetCreateMetaByProject(projectKey string) {
+//
+//	result, resp, err := j.Client.Issue.GetCreateMeta(context.Background(), &jiraonprem.GetQueryOptions{
+//		ProjectKeys: projectKey,
+//	})
+//	if err != nil {
+//		log.Errorf("failed to GetCreateMetaByProject: %\n", err)
+//	}
+//	_ = resp
+//
+//}
+
 func (j *JiraClient) GetJiraIssuesByProject(projectKey string) ([]jiraonprem.Issue, error) {
-	jql := fmt.Sprintf("project = %s and type = %s", projectKey, j.Opts.VulnType)
+	jql := fmt.Sprintf("project = %s and type = %s", projectKey, j.Opts.Config.IssueTypeID)
 
 	issues, _, err := j.Client.Issue.Search(context.Background(), jql, nil)
 	if err != nil {
