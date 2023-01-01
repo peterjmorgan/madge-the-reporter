@@ -5,10 +5,6 @@ Madge is a reporter of issues, Phylum supply chain security issues specifically.
 
 (other ticketing systems coming soon)
 
-It is a binary with subcommands:
-- `configure` - interactively create a configuration file `madge_config.yaml`
-- `jira` - parse `madge_config.yaml` to create Jira Issues from Phylum Issues
-
 ## Use case
 Alice astutely understands using Phylum instead of an SCA tool enables her to defend her organization's software product from the totality of software supply chain risk. Alice wants to report the Phylum Issues for her project to Bob, her developer co-worker, so he can work on fixing the issues. The only issue is, Bob uses Jira for all software development processes. Madge can help here!
 
