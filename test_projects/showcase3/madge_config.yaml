@@ -4,6 +4,7 @@ issueconfig:
         authtype: PAT
         uri: http://vader.lan:8080
         token: NzIwNjIxNzUzMjk5Okn6vIADIjFNaaRxK6NI4o/tU7UP
+        issuetypeid: "10007"
         customfields:
             cwe:
                 name: CWE

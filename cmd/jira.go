@@ -15,18 +15,6 @@ func init() {
 	jiraCmd.Flags().StringP("JiraProjectKey", "j", "", "Reference the Jira Project Key")
 }
 
-// var myOpts jira.JiraClientOpts = jira.JiraClientOpts{
-// 	OnPrem:      true,
-// 	AuthType:    "PAT",
-// 	Domain:      "http://vader.lan:8080",
-// 	Username:    "pmorgan",
-// 	Token:       os.Getenv("JIRA_PAT"),
-// 	ProjectName: "Vulnerabilities",
-// 	VulnType:    "Vulnerability",
-// }
-
-//var pOpts phylum.ClientOptions = phylum.ClientOptions{Token: os.Getenv("PHYLUM_TOKEN")}
-
 var jiraCmd = &cobra.Command{
 	Use:   "jira",
 	Short: "jira",
@@ -35,12 +23,19 @@ var jiraCmd = &cobra.Command{
 		jiraProjectKey, _ := cmd.Flags().GetString("JiraProjectKey")
 		dryRun, _ := cmd.Flags().GetBool("dry-run")
 		debugFlag, _ := cmd.Flags().GetBool("debug")
+		configFile, _ := cmd.Flags().GetString("configFile")
 
 		if debugFlag {
 			log.SetLevel(log.DebugLevel)
 		}
 
-		jiraConfig, err := utils.ReadConfigFile(&structs.ConfigFile{})
+		// If configFile is set via command-line flag, use that config file
+		var userConfigFile structs.ConfigFile
+		if configFile != "" {
+			userConfigFile.Filename = configFile
+		}
+
+		jiraConfig, err := utils.ReadConfigFile(&userConfigFile)
 		if err != nil {
 			log.Errorf("failed to read config file: %v\n", err)
 			return
@@ -52,10 +47,9 @@ var jiraCmd = &cobra.Command{
 			OnPrem:   jiraConfig.JiraConfigObj.OnPrem,
 			AuthType: jiraConfig.JiraConfigObj.AuthType,
 			Domain:   jiraConfig.JiraConfigObj.URI,
-			Username: "blah", // TODO: remove
 			Token:    jiraConfig.JiraConfigObj.Token,
-			VulnType: "Vulnerability", // TODO: figure this out
-			Config:   jiraConfig.JiraConfigObj,
+			//VulnType: "Vulnerability", // TODO: figure this out
+			Config: jiraConfig.JiraConfigObj,
 		}
 
 		// create clients

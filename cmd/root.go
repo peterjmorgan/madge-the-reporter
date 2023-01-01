@@ -29,14 +29,11 @@ func init() {
 	// Cobra supports persistent flags, which, if defined here,
 	// will be global for your application.
 
-	// rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.PhylumSyringeGitlab.yaml)")
+	//rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.PhylumSyringeGitlab.yaml)")
+	rootCmd.PersistentFlags().StringP("configFile", "c", "", "config file (default is $PWD/madge_config.yaml")
+	rootCmd.PersistentFlags().BoolP("debug", "d", false, "Debug logging")
+	rootCmd.PersistentFlags().BoolP("dry-run", "D", false, "Dry Run")
 
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.
-	rootCmd.PersistentFlags().BoolP("debug", "d", false, "Debug logging")
-	rootCmd.PersistentFlags().BoolP("dry-run", "D", false, "Dry Run")
-	// TODO: consider removing these. Mostly for testing for a specific use case. Perhaps moving to the environment is better
-	//rootCmd.PersistentFlags().BoolP("mine-only", "m", false, "(Gitlab) Only projects owned by the user")
-	//rootCmd.PersistentFlags().Int32P("ratelimit", "r", 100, "Rate Limit (X/reqs/sec) ")
-	//rootCmd.PersistentFlags().StringP("proxyUrl", "p", "", "proxy (https://url:port)")
 }
