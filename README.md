@@ -3,7 +3,7 @@
 Madge is a reporter of issues, Phylum supply chain security issues specifically. Madge translates Phylum issues into tickets for various ticketing systems. Currently, Madge supports:
 - Jira
 
-(other ticketing systems coming soon)
+(other ticketing systems can be added, please create a GitHub issue outlining the request)
 
 ## Use case
 Alice astutely understands using Phylum instead of an SCA tool enables her to defend her organization's software product from the totality of software supply chain risk. Alice wants to report the Phylum Issues for her project to Bob, her developer co-worker, so he can work on fixing the issues. The only issue is, Bob uses Jira for all software development processes. Madge can help here!
@@ -19,13 +19,13 @@ If have you a modern Go toolchain installed:
 `go install github.com/peterjmorgan/madge-the-reporter@latest`
 
 ## Getting Started
-Interactively configure madge:
+`./madge configure` - Interactively configure madge
 
-`./madge configure`
+`export PHYLUM_TOKEN=XXXXX` - Set env variable for Phylum token
 
-Synchronize Phylum Issues in PHYLUM_PROJECT_ID with a Jira project identified by JIRA_PROJECT_KEY
+`export JIRA_TOKEN=XXXXX` - Set env variable for Jira Token
 
-`./madge jira -j JIRA_PROJECT_KEY -p PHYLUM_PROJECT_ID`
+`./madge jira -j JIRA_PROJECT_KEY -p PHYLUM_PROJECT_ID` - Synchronize Phylum Issues in PHYLUM_PROJECT_ID with a Jira project identified by JIRA_PROJECT_KEY
 
 Additional flags:
 - `-c` specify path to configuration file
@@ -37,6 +37,12 @@ Additional flags:
 `madge` uses a YAML config file named `madge_config.yaml`. This file can be edited directly, but it is suggested the first configuration be created using the `./madge configure` subcommand.
 
 `madge` looks for the config file in the current working directory. This can be overridden using the `-c PATH_TO_CONFIG` flag. 
+
+Tokens for the ticketing system and Phylum are written to the environment, and need to be present for authenticated operation. Madge expects the following environment variables with associated tokens:
+- `PHYLUM_TOKEN` - Phylum API token. Retrievable from a configured Phylum CLI with `phylum auth token`
+- `JIRA_TOKEN` - Jira Personal Access Token.
+
+Interactive configuration using `configure` will write tokens to the current environment.
 
 ### Phylum -> Jira
 By default, madge creates Jira issues using the 'Bug' Issue Type in Jira. This can be defined in the madge configuration.
