@@ -13,8 +13,8 @@ It is a binary with subcommands:
 Alice astutely understands using Phylum instead of an SCA tool enables her to defend her organization's software product from the totality of software supply chain risk. Alice wants to report the Phylum Issues for her project to Bob, her developer co-worker, so he can work on fixing the issues. The only issue is, Bob uses Jira for all software development processes. Madge can help here!
 
 1. Alice `analyzes` her software project with Phylum.
-1. Alice triages the resulting Phylum Issues, resulting in some *suppressed issues*
-1. Alice wants to report the remaining Phylum Issues into Jira, so her developer team member, Bob, can get to work fixing the issues.
+1. Alice triages the resulting Phylum Issues, resulting in some *suppressed issues* in her Phylum project.
+1. Alice wants to report the remaining Phylum Issues into Jira, so her developer team member, Bob, can fix the issues.
 1. `madge` enables Alice to do this!
 
 ## Getting Started
