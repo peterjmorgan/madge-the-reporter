@@ -19,16 +19,17 @@ Alice astutely understands using Phylum instead of an SCA tool enables her to de
 
 ## Installation
 If have you a modern Go toolchain installed:
+
 `go install github.com/peterjmorgan/madge-the-reporter@latest`
 
 ## Getting Started
-Synchronize Phylum Issues in PHYLUM_PROJECT_ID with a Jira project identified by JIRA_PROJECT_KEY
-
-`./madge jira -j JIRA_PROJECT_KEY -p PHYLUM_PROJECT_ID`
-
 Interactively configure madge:
 
 `./madge configure`
+
+Synchronize Phylum Issues in PHYLUM_PROJECT_ID with a Jira project identified by JIRA_PROJECT_KEY
+
+`./madge jira -j JIRA_PROJECT_KEY -p PHYLUM_PROJECT_ID`
 
 ## Configuration
 `madge` uses a YAML configuration file named `madge_config.yaml`. This file can be edited directly, but it is suggested the first configuration be created using the `./madge configure` subcommand.
