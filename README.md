@@ -17,6 +17,10 @@ Alice astutely understands using Phylum instead of an SCA tool enables her to de
 1. Alice wants to report the remaining Phylum Issues into Jira, so her developer team member, Bob, can fix the issues.
 1. `madge` enables Alice to do this!
 
+## Installation
+If have you a modern Go toolchain installed:
+`go install github.com/peterjmorgan/madge-the-reporter@latest`
+
 ## Getting Started
 Synchronize Phylum Issues in PHYLUM_PROJECT_ID with a Jira project identified by JIRA_PROJECT_KEY
 
