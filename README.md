@@ -1,17 +1,17 @@
 # Madge
 
 Madge is a reporter of issues, Phylum supply chain security issues specifically. Madge translates Phylum issues into tickets for various ticketing systems. Currently, Madge supports:
-- Jira On Premise
+- Jira On Prem
 
 (other ticketing systems can be added, please create a GitHub issue outlining the request)
 
 ## Use case
-Alice astutely understands using Phylum instead of an SCA tool enables her to defend her organization's software product from the totality of software supply chain risk. Alice wants to report the Phylum Issues for her project to Bob, her developer co-worker, so he can work on fixing the issues. The only issue is, Bob uses Jira for all software development processes. Madge can help here!
+Alice astutely understands using Phylum instead of an SCA tool enables her to defend her organization's software product from the totality of software supply chain risk. Alice wants to report the Phylum Issues for her project to Bob, her developer co-worker, so he can work on fixing the issues. However, Bob uses Jira for software development tasks, madge can help here!
 
 1. Alice `analyzes` her software project with Phylum.
 1. Alice triages the resulting Phylum Issues, resulting in some *suppressed issues* in her Phylum project.
 1. Alice wants to report the remaining Phylum Issues into Jira, so her developer team member, Bob, can fix the issues.
-1. `madge` enables Alice to do this!
+1. `madge` enables Alice to do this
 
 ## Installation
 If have you a modern Go toolchain installed:
@@ -31,7 +31,6 @@ Additional flags:
 - `-c` specify path to configuration file
 - `-d` enable debug logging
 - `-D` enable dry-run mode (do not submit issues to ticketing system)
-
 
 ## Configuration
 `madge` uses a YAML config file named `madge_config.yaml`. This file can be edited directly, but it is suggested the first configuration be created using the `./madge configure` subcommand.
