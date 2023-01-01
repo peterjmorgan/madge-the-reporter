@@ -10,7 +10,7 @@ It is a binary with subcommands:
 - `jira` - parse `madge_config.yaml` to create Jira Issues from Phylum Issues
 
 ## Workflow
-Alice astutely understands using Phylum instead of an SCA tool enables her to defend her organization's software product from the totality of software supply chain risk. Alice wants to report the Phylum Issues for her project to Bob, her developer co-worker so he can work on fixing the issues. The only issue is, Bob is used to using Jira as all the software development processes live in Jira. Madge can help here!
+Alice astutely understands using Phylum instead of an SCA tool enables her to defend her organization's software product from the totality of software supply chain risk. Alice wants to report the Phylum Issues for her project to Bob, her developer co-worker, so he can work on fixing the issues. The only issue is, Bob uses Jira for all software development processes. Madge can help here!
 
 1. Alice `analyzes` her software project with Phylum.
 1. Alice triages the resulting Phylum Issues, resulting in some *suppressed issues*
