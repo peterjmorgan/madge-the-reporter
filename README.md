@@ -1,9 +1,10 @@
-# Madge
+# Madge - The unofficial reporter
 
 Madge is a reporter of issues, Phylum supply chain security issues specifically. Madge translates Phylum issues into tickets for various ticketing systems. Currently, Madge supports:
 - Jira On Prem
 
-(other ticketing systems can be added, please create a GitHub issue outlining the request)
+## Support
+Madge is not officially supported by Phylum. 
 
 ## Use case
 Alice astutely understands using Phylum instead of an SCA tool enables her to defend her organization's software product from the totality of software supply chain risk. Alice wants to report the Phylum Issues for her project to Bob, her developer co-worker, so he can work on fixing the issues. However, Bob uses Jira for software development tasks, madge can help here!
