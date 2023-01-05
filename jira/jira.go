@@ -27,6 +27,7 @@ type JiraClientOpts struct {
 	ProjectName string // needed for queries i think
 	VulnType    string
 	Config      structs.JiraConfig
+	Debug       bool
 }
 
 // TODO
@@ -207,6 +208,10 @@ func (j *JiraClient) CreateIssue(issue phylum.IssuesListItem, projectKey string)
 	if err != nil {
 		log.Errorf("failed to create jira issue: %v\n", err)
 		tempbody, _ := io.ReadAll(resp.Body)
+		if j.Opts.Debug {
+			log.Debugf("Failed Jira Response body:\n")
+			log.Debugf("%s\n", string(tempbody))
+		}
 		_ = tempbody
 		return "", err
 	}

@@ -60,6 +60,7 @@ var jiraCmd = &cobra.Command{
 			Token:    jiraConfig.JiraConfigObj.Token,
 			//VulnType: "Vulnerability", // TODO: figure this out
 			Config: jiraConfig.JiraConfigObj,
+			Debug:  debugFlag,
 		}
 
 		// create clients
