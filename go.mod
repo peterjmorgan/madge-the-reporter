@@ -4,6 +4,7 @@ go 1.19
 
 require (
 	github.com/andygrunwald/go-jira/v2 v2.0.0-20221123211055-094697715517
+	github.com/creativeprojects/go-selfupdate v1.0.0-beta.2
 	github.com/manifoldco/promptui v0.9.0
 	github.com/peterjmorgan/go-phylum v0.1.99
 	github.com/sirupsen/logrus v1.9.0
@@ -18,7 +19,6 @@ require (
 	github.com/Masterminds/semver/v3 v3.2.0 // indirect
 	github.com/chzyer/readline v1.5.1 // indirect
 	github.com/coreos/go-oidc v2.2.1+incompatible // indirect
-	github.com/creativeprojects/go-selfupdate v1.0.0-beta.2 // indirect
 	github.com/deepmap/oapi-codegen v1.12.4 // indirect
 	github.com/fatih/structs v1.1.0 // indirect
 	github.com/go-resty/resty/v2 v2.7.0 // indirect
