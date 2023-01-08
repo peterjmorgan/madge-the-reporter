@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"fmt"
 	"github.com/spf13/cobra"
 	"os"
 )
@@ -33,6 +34,12 @@ func init() {
 	rootCmd.PersistentFlags().StringP("configFile", "c", "", "config file (default is $PWD/madge_config.yaml")
 	rootCmd.PersistentFlags().BoolP("debug", "d", false, "Debug logging")
 	rootCmd.PersistentFlags().BoolP("dry-run", "D", false, "Dry Run")
+	rootCmd.PersistentFlags().BoolP("version", "v", false, "Print version")
+
+	versionFlag, _ := rootCmd.Flags().GetBool("version")
+	if versionFlag {
+		fmt.Printf("Version is %s", Version)
+	}
 
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.
