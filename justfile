@@ -7,6 +7,9 @@ clean:
 	rm *.exe
 	rm go_build*
 
+release:
+	goreleaser release --rm-dist
+
 showcase3:
 	op run -- ./madge jira -j VULN -p dd937163-c655-4ee2-bb16-32fbc48a75f7 -c test_projects/showcase3/madge_config.yaml
 
