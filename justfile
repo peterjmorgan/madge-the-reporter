@@ -1,4 +1,5 @@
 build:
+	go generate
 	go build -v -o madge
 
 clean:

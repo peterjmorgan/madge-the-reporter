@@ -2,28 +2,43 @@ package cmd
 
 import (
 	"context"
+	_ "embed"
 	"github.com/creativeprojects/go-selfupdate"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 	"os"
 	"runtime"
+	"strings"
 )
 
 func init() {
 	rootCmd.AddCommand(updateCmd)
 }
 
+//go:generate bash get_version.sh
+//go:embed version.txt
+var Version string
+
 var updateCmd = &cobra.Command{
 	Use:   "update",
 	Short: "update",
 	Run: func(cmd *cobra.Command, args []string) {
+		// Fix newline
+		Version = strings.Trim(Version, "\n")
 		//source, err := selfupdate.NewGitHubSource(selfupdate.GitHubConfig{})
 		//if err != nil {
 		//	log.Errorf("error occurred getting source: %w", err)
 		//	return
 		//}
 
-		//TODO: get current version
+		////TODO: get current version
+		//buildInfo, ok := debug.ReadBuildInfo()
+		//if ok != true {
+		//	log.Errorf("error occured while reading buildInfo")
+		//	return
+		//}
+		//
+		//_ = buildInfo
 
 		latest, found, err := selfupdate.DetectLatest(context.Background(), selfupdate.ParseSlug("peterjmorgan/madge-the-reporter"))
 		if err != nil {
@@ -35,8 +50,8 @@ var updateCmd = &cobra.Command{
 			return
 		}
 
-		if latest.LessOrEqual(version) {
-			log.Printf("Current version (%s) is the latest", version)
+		if latest.LessOrEqual(Version) {
+			log.Printf("Current version (%s) is the latest", Version)
 			return
 		}
 
